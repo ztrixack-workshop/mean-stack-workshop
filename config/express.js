@@ -16,6 +16,9 @@ module.exports = function() {
 	}));
 	app.use(bodyParser.json());
 
+	app.set("views", "./app/views");
+	app.set("view engine", "jade");
+
 	require('../app/routes/index.routes')(app);
 	return app;
 }
