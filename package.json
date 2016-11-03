@@ -7,10 +7,11 @@
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "jade": "^1.11.0",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "node-sass-middleware": "^0.9.8"
   },
   "repository": {
-  	"type": "git",
-  	"url": "git://github.com/ztrixack/practice-mean-stack.git"
+    "type": "git",
+    "url": "git://github.com/ztrixack/practice-mean-stack.git"
   }
 }
