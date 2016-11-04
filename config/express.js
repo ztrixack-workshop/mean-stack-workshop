@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var sass = require('node-sass-middleware');
 var validator = require('express-validator');
 var session = require('express-session');
+var config = require('./config');
 
 module.exports = function() {
 	var app = express();
@@ -15,7 +16,7 @@ module.exports = function() {
 		app.use(compression);
 	}
 	app.use(session({
-		secret: 'session_key',
+		secret: config.sessionSecret,
 		resave: false,
 		saveUninitialized: true
 	}));
