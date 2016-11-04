@@ -44,3 +44,21 @@ exports.create = function(req, res, next) {
 		}
 	});
 }
+
+exports.list = function(req, res, next) {
+	// User.find({condition}, [Field], [Option], function(err, users){});
+	// 
+	// Example:
+	// User.find({
+	// 	firstName: "Supasate",
+	// 	age: { $gt: 18, $lt: 60},
+	// 	
+	// 	});
+	User.find({}, function (err, users) {
+		if (err) {
+			return next(err);
+		} else {
+			res.json(users);
+		}
+	});
+}
