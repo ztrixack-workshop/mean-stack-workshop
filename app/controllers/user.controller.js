@@ -1,3 +1,5 @@
+var User = require('mongoose').model('user');
+
 exports.login = function(req, res) {
 	req.checkBody('email', 'Invalid email').notEmpty().isEmail();	
 	req.sanitizeBody('email').normalizeEmail();
@@ -28,5 +30,17 @@ exports.logout = function(req, res) {
 	res.render('index', {
 		title: 'See you again later',
 		isLoggedIn: false
+	});
+}
+
+exports.create = function(req, res, next) {
+	var user = new User(req.body);
+
+	user.save(function(err) {
+		if (err) {
+			return next(err);
+		} else {
+			res.json(user);
+		}
 	});
 }
