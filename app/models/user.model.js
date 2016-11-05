@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var crypto = require('crypto');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
@@ -8,7 +9,7 @@ var UserSchema = new Schema({
 		type: String, 
 		unique: true, 
 		trim: true,
-		required: true
+		required: 'Username is required'
 	},
 	email: {
 		type: String, 
@@ -24,6 +25,17 @@ var UserSchema = new Schema({
 		'Password must br at least 6 characters'
 		]
 	},
+	salt: { // password hash help to protect  the rainbow attackd 
+		type: String
+	},
+	provider: {
+		type: String,
+		required: 'Provider is required'
+	},
+	providerId: String,
+	providerData: {
+		// data from provider
+	},
 	created: {
 		type: Date,
 		default: Date.now
@@ -34,5 +46,21 @@ var UserSchema = new Schema({
 		default: 'User'
 	}
 });
+
+UserSchema.pre('save', function(next) {
+	if (this.password) {
+		this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
+		this.password = this.hashPassword(this.password);
+	}
+	next();
+});
+
+UserSchema.methods.hashPassword = function(password) {
+	return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64'); // Password-Based Key Derivative Function 2
+}
+
+UserSchema.methods.authenticate = function(password) {
+	return this.password === this.hashPassword(password);
+}
 
 mongoose.model('user', UserSchema);
