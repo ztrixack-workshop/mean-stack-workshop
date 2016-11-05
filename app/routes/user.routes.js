@@ -9,7 +9,8 @@ module.exports = function(app) {
 
 	app.route('/user/:username') // URL param to var
 		.get(user.read)
-		.put(user.update);
+		.put(user.update)
+		.delete(user.delete);
 
 	app.param('username', user.userByUsername); // for URL param convertion
 };

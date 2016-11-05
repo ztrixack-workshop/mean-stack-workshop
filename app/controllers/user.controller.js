@@ -70,6 +70,16 @@ exports.update = function(req, res, next) {
 	});
 }
 
+exports.delete = function(req, res, next) {
+	req.user.remove(function(err, user) {
+		if (err) {
+			return next(err);
+		} else {
+			res.json(user);
+		}
+	});
+}
+
 exports.userByUsername = function(req, res, next, username) {
 	User.findOne({username: username}, function(err, user) {
 		if (err) {
