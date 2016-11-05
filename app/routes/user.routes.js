@@ -8,7 +8,8 @@ module.exports = function(app) {
 		.get(user.list);
 
 	app.route('/user/:username') // URL param to var
-		.get(user.read);
+		.get(user.read)
+		.put(user.update);
 
 	app.param('username', user.userByUsername); // for URL param convertion
 };
