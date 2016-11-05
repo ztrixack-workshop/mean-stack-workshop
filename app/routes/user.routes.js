@@ -6,4 +6,9 @@ module.exports = function(app) {
 	app.route('/user')
 		.post(user.create)
 		.get(user.list);
+
+	app.route('/user/:username') // URL param to var
+		.get(user.read);
+
+	app.param('username', user.userByUsername); // for URL param convertion
 };
