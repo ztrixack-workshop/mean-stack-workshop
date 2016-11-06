@@ -1,5 +1,5 @@
 angular.module('hello').controller('HelloController', [
 	'$scope',
 	function($scope) {
-		$scope.yourNmae = 'No Name';
+		$scope.yourName = 'No Name';
 	}]);
