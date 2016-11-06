@@ -8,7 +8,6 @@ module.exports = function() {
 		clientID: config.google.clientID,
 		clientSecret: config.google.clientSecret,
 		callbackURL: config.google.callbackURL,
-		profileFields: ['id', 'email', 'name'],
 		passReqToCallback: true
 	}, function(req, accessToken, refreshToken, profile, done) {
 		var providerData = profile._json;
