@@ -1,4 +1,5 @@
 var User = require('mongoose').model('user');
+var passport = require('passport');
 
 var getErrorMessage = function(err) {
 	var message = '';
@@ -26,10 +27,14 @@ var getErrorMessage = function(err) {
 }
 
 exports.renderSignup = function(req, res) {
-	res.render('signup', {
-		title: 'Sign up',
-		messages: req.flash('error')
-	});
+	if (!req.user) {
+		res.render('signup', {
+			title: 'Sign up',
+			messages: req.flash('error')
+		});
+	} else {
+		return res.redirect('/');
+	}
 }
 
 exports.signup = function(req, res, next) {
@@ -54,37 +59,59 @@ exports.signup = function(req, res, next) {
 	}
 }
 
-exports.login = function(req, res) {
-	req.checkBody('email', 'Invalid email').notEmpty().isEmail();	
-	req.sanitizeBody('email').normalizeEmail();
-	var errors = req.validationErrors();
-	if (errors) {
-		res.render('index', {
-			title: 'There have been validation errors: ', // + JSON.stringify(errors),
-			isLoggedIn: false
+exports.renderLogin = function(req, res) {
+		if (!req.user) {
+		res.render('login', {
+			title: 'Log in',
+			messages: req.flash('error') || req.flash('info')
 		});
-		return;
+	} else {
+		return res.redirect('/');
 	}
-
-	if (req.body.remember === 'remember') {
-		req.session.remember = true;
-		req.session.email = req.body.email;
-		req.session.cookie.maxAge = 60000;
-	}
-
-	res.render('index', {
-		title: 'Logged in as ' + req.body.email,
-		isLoggedIn: true
-	});
 }
 
-exports.logout = function(req, res) {
-	req.session = null;
+exports.login = 
+//function(req, res) {
+	// req.checkBody('email', 'Invalid email').notEmpty().isEmail();	
+	// req.sanitizeBody('email').normalizeEmail();
+	// var errors = req.validationErrors();
+	// if (errors) {
+	// 	res.render('index', {
+	// 		title: 'There have been validation errors: ', // + JSON.stringify(errors),
+	// 		isLoggedIn: false
+	// 	});
+	// 	return;
+	// }
 
-	res.render('index', {
-		title: 'See you again later',
-		isLoggedIn: false
-	});
+	// if (req.body.remember === 'remember') {
+	// 	req.session.remember = true;
+	// 	req.session.email = req.body.email;
+	// 	req.session.cookie.maxAge = 60000;
+	// }
+
+	// res.render('index', {
+	// 	title: 'Logged in as ' + req.body.email,
+	// 	isLoggedIn: true
+	// });
+	
+	
+	passport.authenticate('local', {
+			successRedirect: '/',
+			failureRedirect: '/login',
+			failureFlash: true
+		});
+//}
+
+exports.logout = function(req, res) {
+	// req.session = null;
+
+	// res.render('index', {
+	// 	title: 'See you again later',
+	// 	isLoggedIn: false
+	// });
+	
+	req.logout();
+	return res.redirect('/');
 }
 
 exports.create = function(req, res, next) {
