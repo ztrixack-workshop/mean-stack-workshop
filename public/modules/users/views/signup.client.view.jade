@@ -30,6 +30,8 @@ form(name='signupForm', ng-controller='AuthController', ng-submit='signup(signup
 			div(ng-message='minlength') Your password is too short.
 	div
 		input(type='submit', value='Sign up', ng-disabled='signupForm.$invalid')
+		div(ng-show='error')
+			strong(ng-bind='error')
 div
 	a(href='/oauth/facebook') Log in with Facebook
 div
