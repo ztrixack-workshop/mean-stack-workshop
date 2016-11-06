@@ -13,7 +13,7 @@ html
 				a(href='/signup') Sign up
 			div
 				a(href='/login') Log in
-			div(ng-app='app' ng-controller='NameController')
+			div#mainApp(ng-controller='NameController')
 				div
 					label(for='yourName') You name is
 					input(name='yourName', type='text', ng-model='yourName')
