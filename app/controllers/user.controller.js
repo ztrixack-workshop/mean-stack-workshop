@@ -99,6 +99,29 @@ exports.login = passport.authenticate('local', {
 	// });
 //}
 
+exports.loginFacebook = passport.authenticate('facebook', {
+	failureRedirect: '/login'
+});
+
+exports.loginFacebookCallback = passport.authenticate('facebook', {
+	failureRedirect: '/login',
+	successRedirect: '/'
+});
+
+exports.loginGoogle = passport.authenticate('google', {
+	scope: [
+		'http://www.googleapis.com/auth/userinfo.profile',
+		'http://www.googleapis.com/auth/userinfo.email'
+	],
+	failureRedirect: '/login'
+});
+
+exports.loginGoogleCallback = passport.authenticate('google', {
+	failureRedirect: '/login',
+	successRedirect: '/'
+});
+
+
 exports.logout = function(req, res) {
 	// req.session = null;
 
@@ -110,7 +133,6 @@ exports.logout = function(req, res) {
 	req.logout();
 	return res.redirect('/');
 }
-
 
 exports.saveOAuthUserProfile = function(req, profile, done) {
 	User.findOne({

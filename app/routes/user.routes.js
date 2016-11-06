@@ -1,5 +1,4 @@
 var user = require('../controllers/user.controller');
-var passport = require('passport');
 
 module.exports = function(app) {
 	app.route('/signup')
@@ -9,12 +8,13 @@ module.exports = function(app) {
 	//app.post('/login', user.login);
 	app.route('/login')
 		.get(user.renderLogin)
-		//.post(user.login);
-		.post(passport.authenticate('local', {
-			successRedirect: '/',
-			failureRedirect: '/login',
-			failureFlash: true
-		}));
+		.post(user.login);
+
+	app.get('/oauth/facebook', user.loginFacebook);
+	app.get('/oauth/facebook/callback', user.loginFacebookCallback);
+
+	app.get('/oauth/google', user.loginGoogle);
+	app.get('/oauth/google/callback', user.loginGoogleCallback);
 
 	app.post('/logout', user.logout);
 
