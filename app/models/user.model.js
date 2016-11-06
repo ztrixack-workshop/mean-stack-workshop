@@ -55,8 +55,10 @@ UserSchema.pre('save', function(next) {
 	next();
 });
 
-UserSchema.methods.hashPassword = function(password) {
-	return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64'); // Password-Based Key Derivative Function 2
+UserSchema.methods.hashPassword = function(password) { // Password-Based Key Derivative Function 2
+	// ERROR crypto.pbkdf2 without specifying a digest is deprecated. Please specify a digest
+	// return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64'); 
+	return crypto.pbkdf2Sync(password, this.salt, 100000, 512, 'sha512').toString('hex');
 }
 
 UserSchema.methods.authenticate = function(password) {
