@@ -70,7 +70,11 @@ exports.renderLogin = function(req, res) {
 	}
 }
 
-exports.login = 
+exports.login = passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/login',
+	failureFlash: true
+});
 //function(req, res) {
 	// req.checkBody('email', 'Invalid email').notEmpty().isEmail();	
 	// req.sanitizeBody('email').normalizeEmail();
@@ -93,13 +97,6 @@ exports.login =
 	// 	title: 'Logged in as ' + req.body.email,
 	// 	isLoggedIn: true
 	// });
-	
-	
-	passport.authenticate('local', {
-			successRedirect: '/',
-			failureRedirect: '/login',
-			failureFlash: true
-		});
 //}
 
 exports.logout = function(req, res) {
@@ -112,6 +109,36 @@ exports.logout = function(req, res) {
 	
 	req.logout();
 	return res.redirect('/');
+}
+
+
+exports.saveOAuthUserProfile = function(req, profile, done) {
+	User.findOne({
+		provider: profile.provider,
+		providerId: profile.providerId
+	}, function (err, user) {
+		if (err) {
+			return done(err);
+		} else {
+			if (!user) {
+				var possibleUsername = profile.username || (profile.email ? profile.email.split('@')[0] : '');
+				User.findUniqueUsername(possibleUsername, null, function(availableUsername) {
+					profile.username = availableUsername;
+					user = new User(profile);
+					user.save(function(err) {
+						if (err) {
+							var message = getErrorMessage(err);
+							req.flash('error', message);
+							return res.redirect('/signup');
+						}
+						return done(err, user);
+					});
+				});
+			} else {
+				return done(err, user);
+			}
+		}	
+	});
 }
 
 exports.create = function(req, res, next) {

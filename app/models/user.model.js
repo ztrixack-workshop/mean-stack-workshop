@@ -55,6 +55,21 @@ UserSchema.pre('save', function(next) {
 	next();
 });
 
+UserSchema.statics.findUniqueUsername = function(username, suffix, callback) {
+	var _this = this;
+	var possibleUsername = username + (suffix || '');
+	_this.findOne({
+		username: possibleUsername
+	}, function(err, user) {
+		if (!err) {
+			if (!user) callback(possibleUsername);
+			else return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
+		} else {
+			callback(null);
+		}
+	});
+}
+
 UserSchema.methods.hashPassword = function(password) { // Password-Based Key Derivative Function 2
 	// ERROR crypto.pbkdf2 without specifying a digest is deprecated. Please specify a digest
 	// return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64'); 
