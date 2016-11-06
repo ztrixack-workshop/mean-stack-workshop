@@ -3,7 +3,7 @@
 var mainAppModuleName = 'Main';
 
 // angular.module(moduleName, [dependency1, dependency2, ...]);
-var mainAppModule = angular.module(mainAppModuleName, ['ui.router', 'core', 'users']);
+var mainAppModule = angular.module(mainAppModuleName, ['ui.router', 'ngMessages', 'core', 'users']);
 
 angular.element(document).ready(function() {
 	angular.bootstrap(document.querySelector('#mainApp'), [mainAppModuleName], {
