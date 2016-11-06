@@ -35,11 +35,13 @@ module.exports = function() {
 	app.use(bodyParser.json());
 	app.use(validator()); // next from bodyParser
 
-	app.set('views', './app/views');
+	app.set('views', ['./app/views', './public']);
 	app.set('view engine', 'jade');
 
-	require('../app/routes/index.routes')(app);
-	require('../app/routes/user.routes')(app);// runtime must be below route for high perfomance
+	require('../app/routes/index.server.routes')(app);
+	require('../app/routes/user.server.routes')(app);
+	require('../app/routes/partial.server.routes')(app);
+	// runtime code must be below route for high perfomance
 	// before express.static
 	if (process.env.NODE_ENV === "development") {
 		app.use(sass({

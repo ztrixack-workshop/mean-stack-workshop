@@ -1,0 +1,38 @@
+h2 Sign up
+form(name='signupForm', ng-controller='AuthController', ng-submit='signup(signupForm.$valid)', novalidate)
+	div
+		label(for='username') Username
+		input(name='username', type='text', placeholder='username', ng-model='user.username', ng-maxlength='10', required)
+		div(ng-messages='signupForm.username.$error', ng-show='signupForm.username.$touched', style='color:maroon', role='alert')
+			div(ng-message='required') You did not enter a field.
+			div(ng-message='maxlength') Your username is too long.
+	div
+		label(for='firstname') Firstname
+		input(name='firstname', type='text', placeholder='Firstname', ng-model='user.firstname', required)
+		div(ng-messages='signupForm.firstname.$error', ng-show='signupForm.firstname.$touched', style='color:maroon', role='alert')
+			div(ng-message='required') You did not enter a field.
+	div
+		label(for='lastname') Lastname
+		input(name='lastname', type='text', placeholder='Lastname', ng-model='user.lastname', required)
+		div(ng-messages='signupForm.lastname.$error', ng-show='signupForm.lastname.$touched', style='color:maroon', role='alert')
+			div(ng-message='required') You did not enter a field.
+	div
+		label(for='email') Email
+		input(name='email', type='email', placeholder='email', ng-model='user.email', required)
+		div(ng-messages='signupForm.email.$error', ng-show='signupForm.email.$touched', style='color:maroon', role='alert')
+			div(ng-message='required') You did not enter a field.
+			div(ng-message='email') E-mail is in wrong format.
+	div
+		label(for='password') Password
+		input(name='password', type='password', password='password', ng-model='user.password', ng-minlength='6', required)
+		div(ng-messages='signupForm.password.$error', ng-show='signupForm.password.$touched', style='color:maroon', role='alert')
+			div(ng-message='required') You did not enter a field.
+			div(ng-message='minlength') Your password is too short.
+	div
+		input(type='submit', value='Sign up', ng-disabled='signupForm.$invalid')
+		div(ng-show='error')
+			strong(ng-bind='error')
+div
+	a(href='/oauth/facebook') Log in with Facebook
+div
+	a(href='/oauth/google') Log in with Google
