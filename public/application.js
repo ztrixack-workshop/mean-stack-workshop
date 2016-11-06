@@ -17,13 +17,13 @@ angular.element(document).ready(function() {
 // implicit annotation: (minify/obfuscate problems, use ng-annotate to solve this!)
 // 		( 'controllerName', function($scope, $http) {} )
 // inject property annotation: Local variable, like as implicit (same problem)
-mainAppModule.controller('NameController', ['$scope', function($scope) {
-	$scope.yourName = 'No Name';
-}]);
+// mainAppModule.controller('NameController', ['$scope', function($scope) {
+// 	$scope.yourName = 'No Name';
+// }]);
 
 // filter(filtername, function
-mainAppModule.filter('sayhello', function() {
-	return function (name) {
-		return 'Hello, ' + name;
-	};
-});
+// mainAppModule.filter('sayhello', function() {
+// 	return function (name) {
+// 		return 'Hello, ' + name;
+// 	};
+// });

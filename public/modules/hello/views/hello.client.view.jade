@@ -1,1 +1,6 @@
-
+div(ng-controller='HelloController')
+	div
+		label(for='yourName') You name is
+		input(name='yourName', type='text', ng-model='yourName')
+	div
+		|  {{ yourName | sayhello }}
