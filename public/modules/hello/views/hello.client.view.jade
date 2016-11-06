@@ -4,3 +4,5 @@ div(ng-controller='HelloController')
 		input(name='yourName', type='text', ng-model='yourName')
 	div
 		|  {{ yourName | sayhello }}
+	// <a ui-sref='nohello' href='#/nohello'>
+	a(ui-sref='nohello') Go to nohello state
